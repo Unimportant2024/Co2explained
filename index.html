@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions and Climate Impact</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+        .low-warning {
+            color: blue;
+            font-weight: bold;
+        }
+        .info {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        canvas {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CO2 Emissions: Human vs. Natural Impact on Climate</h1>
+
+    <!-- CO2 Data Summary -->
+    <p class="info">Current CO2 Level: <span id="co2-value"></span> ppm</p>
+    <p class="info" id="human-impact-info"></p>
+    <p class="info" id="natural-impact-info"></p>
+    <p id="climate-warning" class="warning"></p>
+    <p id="low-warning" class="low-warning"></p>
+
+    <!-- Chart for CO2 Emissions: Human and Natural -->
+    <canvas id="co2Chart" width="400" height="200"></canvas>
+
+    <script>
+        // Set thresholds and CO2 data
+        const dangerousCO2LevelHigh = 450; // Dangerously high CO2 level
+        const dangerousCO2LevelLow = 150; // Dangerously low CO2 level
+        const co2Level = 421; // Simulated current CO2 level in ppm
+        const humanCO2Percentage = 4; // Approximate human contribution to overall CO2 emissions
+        const naturalCO2Percentage = 96; // Approximate natural contribution to CO2 emissions
+
+        // Displaying CO2 values and percentages
+        document.getElementById('co2-value').innerText = co2Level;
+        document.getElementById('human-impact-info').innerText = `Human activities contribute about ${humanCO2Percentage}% of current CO2 emissions.`;
+        document.getElementById('natural-impact-info').innerText = `Natural processes cycle approximately ${naturalCO2Percentage}% of total CO2.`;
+
+        // Function to warn about dangerously high or dangerously low CO2 levels
+        function checkCO2Warning(co2) {
+            if (co2 >= dangerousCO2LevelHigh) {
+                document.body.style.backgroundColor = '#ffcccc'; // Red warning background
+                document.getElementById('climate-warning').innerText = `Warning: CO2 levels are dangerously high at ${co2} ppm! Immediate action is required to mitigate climate change. Despite this, CO2 must not fall to dangerously low levels, which would disrupt photosynthesis and life.`;
+            } else if (co2 <= dangerousCO2LevelLow) {
+                document.body.style.backgroundColor = '#cceeff'; // Blue warning background for low CO2
+                document.getElementById('low-warning').innerText = `Warning: CO2 levels are dangerously low at ${co2} ppm! Levels this low would threaten plant life and oxygen production.`;
+            }
+        }
+
+        // Trigger warning if CO2 is dangerously high or low
+        checkCO2Warning(co2Level);
+
+        // Chart displaying Human vs Natural CO2 contributions
+        const ctx = document.getElementById('co2Chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Human CO2 Emissions (%)', 'Natural CO2 Emissions (%)'],
+                datasets: [{
+                    label: 'CO2 Contributions',
+                    data: [humanCO2Percentage, naturalCO2Percentage],
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                    borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
